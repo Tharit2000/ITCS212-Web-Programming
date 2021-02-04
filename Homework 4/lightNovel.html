@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Light Novels</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+        .bs-example {
+            margin: 20px;
+        }
+    </style>
+    <script type="application/javascript">
+        async function callLightNovelWS(url, method, sentData = {}) {
+            let data;
+            if (method == "selectall") {
+                let response = await fetch(url, {
+                    method: 'GET'
+                });
+                data = await response.json();
+            } else if (method == "select") {
+                let response = await fetch(url, {
+                    method: 'GET'
+                });
+                data = await response.json();
+            } else if (method == "insert" || method == "update" || method == "delete") {
+                let aMethod;
+                if (method == "insert") {
+                    aMethod = "POST";
+                } else if (method == "update") {
+                    aMethod = "PUT";
+                } else if (method == "delete") {
+                    aMethod = "DELETE";
+                }
+                let response = await fetch(url, {
+                    method: aMethod,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(sentData)
+                });
+                data = await response.json();
+            }
+
+            return data;
+        }
+        $(document).ready(function () {
+            var LN_ID, LN_Title, LN_Author, LN_Publish, LN_Volumes;
+
+            function clearInput() {
+                $("#LN_ID").val('');
+                $("#LN_Title").val('');
+                $("#LN_Author").val('');
+                $("#LN_Publish").val('');
+                $("#LN_Volumes").val('');
+            }
+
+            // insert function
+            $("#insert").click(function () {
+                LN_ID = $("#LN_ID").val();
+                LN_Title = $("#LN_Title").val();
+                LN_Author = $("#LN_Author").val();
+                LN_Publish = $("#LN_Publish").val();
+                LN_Volumes = $("#LN_Volumes").val();
+                let LN_data = {
+                    lightNovel: {
+                        LN_ID: LN_ID,
+                        LN_Title: LN_Title,
+                        LN_Author: LN_Author,
+                        LN_Publish: LN_Publish,
+                        LN_Volumes: LN_Volumes
+                    }
+                };
+                callLightNovelWS("http://localhost:3000/light_novel", "insert", LN_data)
+                    .then((data) => {
+                        console.log(data);
+                        if (data.data > 0) {
+                            alert(data.message);
+                            clearInput();
+                        }
+                    });
+            });
+
+            // update function
+            $("#update").click(function () {
+                LN_ID = $("#LN_ID").val();
+                LN_Title = $("#LN_Title").val();
+                LN_Author = $("#LN_Author").val();
+                LN_Publish = $("#LN_Publish").val();
+                LN_Volumes = $("#LN_Volumes").val();
+                let LN_data = {
+                    lightNovel: {
+                        LN_ID: LN_ID,
+                        LN_Title: LN_Title,
+                        LN_Author: LN_Author,
+                        LN_Publish: LN_Publish,
+                        LN_Volumes: LN_Volumes
+                    },
+                    lightNovel_id: LN_ID
+                };
+                callLightNovelWS("http://localhost:3000/light_novel", "update", LN_data)
+                    .then((data) => {
+                        console.log(data);
+                        if (data.data > 0) {
+                            alert(data.message);
+                            clearInput();
+                        }
+                    })
+            });
+
+            // delete function
+            $("#delete").click(function () {
+                LN_ID = $("#LN_ID").val();
+                let LN_data = {
+                    lightNovel_id: LN_ID
+                };
+                callLightNovelWS("http://localhost:3000/light_novel", "delete", LN_data)
+                    .then((data) => {
+                        console.log(data);
+                        if (data.data > 0) {
+                            alert(data.message);
+                            clearInput();
+                        }
+                    })
+            });
+
+            // select all function
+            $("#selecta").click(function () {
+                callLightNovelWS("http://localhost:3000/light_novels", "selectall")
+                    .then((data) => {
+                        console.log(data);
+                        alert(data.message);
+                        if (data.data.length > 0) {
+                            let output;
+                            output = "<h1>Light Novel List</h1>"
+                            output += "<table class='table'>";
+                            output += "<thead>";
+                            output += "<tr>";
+                            output +=
+                                "<th scope='col'>ID</th><th scope='col'>Title</th><th scope='col'>Author</th><th scope='col'>Published Date</th><th scope='col'>Volumes</th>";
+                            output += "</tr>";
+                            output += "</thead>";
+                            output += "<tbody>";
+                            data.data.forEach(element => {
+                                output += "<tr>";
+                                output += "<td>" + element.LNID + "</td>";
+                                output += "<td>" + element.Title + "</td>";
+                                output += "<td>" + element.Author + "</td>";
+                                output += "<td>" + element.PublishedDate + "</td>";
+                                output += "<td>" + element.Volumes + "</td>";
+                                output += "</tr>";
+                            });
+                            output += "</tbody>";
+                            output += "</table>";
+                            $("#output").html(output);
+                            clearInput();
+                        }
+                    });
+            });
+
+            // select function
+            $("#select").click(function () {
+                LN_ID = $("#LN_ID").val();
+                callLightNovelWS("http://localhost:3000/light_novel/" + LN_ID, "select")
+                    .then((data) => {
+                        console.log(data);
+                        if (data) {
+                            alert(data.message);
+                            $("#LN_ID").val(data.data.LNID);
+                            $("#LN_Title").val(data.data.Title);
+                            $("#LN_Author").val(data.data.Author);
+                            $("#LN_Publish").val(data.data.PublishedDate);
+                            $("#LN_Volumes").val(data.data.Volumes);
+                        }
+                    });
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+    <div class="bs-example">
+        <form action="/examples/actions/confirmation.php" method="post">
+            <div class="form-group row">
+                <label for="LN_ID" class="col-sm-2 col-form-label">Light Novel ID:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="LN_ID" placeholder="Light Novel ID">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="LN_Title" class="col-sm-2 col-form-label">Title:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="LN_Title" placeholder="Title">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="LN_Author" class="col-sm-2 col-form-label">Author:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="LN_Author" placeholder="Author">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="LN_Publish" class="col-sm-2 col-form-label">Published Date:</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" id="LN_Publish" placeholder="Published Date">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="LN_Volumes" class="col-sm-2 col-form-label">Volumes:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="LN_Volumes" placeholder="Volumes">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10 offset-sm-2">
+                    <input type="button" class="btn btn-primary" value="Insert" id="insert" />
+                    <input type="button" class="btn btn-primary" value="Update" id="update" />
+                    <input type="button" class="btn btn-primary" value="Delete" id="delete" />
+                    <input type="button" class="btn btn-primary" value="Select" id="select" />
+                    <input type="button" class="btn btn-primary" value="Select all" id="selecta" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="output"></div>
+</body>
+
+</html>
