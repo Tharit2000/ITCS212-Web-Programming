@@ -1,0 +1,132 @@
+/* box-sizing: border-box;
+    - The width and height properties 
+    (and min/max properties) includes content,
+    padding, and border 
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style the entire page */
+html {
+    background-color: #bbeaff;
+    font-family: 'Lato', 'Arial', sans-serif;
+    font-size: 20px;
+    line-height: 150%;
+}
+
+/* Style the body */
+body {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+/* Style the header */
+header {
+    background-color: #ffd5e5;
+    padding: 5%;
+}
+
+/* Style the paragraphs */
+p {
+    font-family: 'PT Serif', serif;
+}
+
+/* Style the header name */
+.header h1 {
+    text-align: center;
+    color: white;
+}
+
+/* Style the navigator bars */
+nav ul {
+    background-color: #a0ffe6;
+    list-style-type: none;
+    overflow: hidden;
+}
+
+/* Style the navigator bars */
+nav li {
+    float: left;
+    height: 30px;
+}
+
+/* Style the navigator bars */
+li a {
+    color: rgb(121, 121, 121);
+    padding: 10px;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+/* Style the navigator bar when hover and active page */
+li a:hover, .active {
+    background-color: #9399ff;
+    color: white;
+}
+
+/* Style the article */
+article {
+    background-color: #ffffdd;
+    height: 100%;
+    padding: 5%;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Style the profile's header */
+.profile h1 {
+    margin: 10px;
+}
+
+/* Style the lines */
+hr {
+    width: 70%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 10px;
+    border: 0;
+    border-bottom: 5px solid #f9acbb;
+}
+
+/* Style the table */
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Style the table's column */
+td {
+    text-align: left;
+    vertical-align: text-top;
+    padding-left: 150px;
+}
+
+/* Style the footer */
+footer {
+    background-color: #ffffdd;
+    padding: 5%;
+    text-align: center;
+}
+
+/* Style the link in footer */
+footer a {
+    text-decoration: none;
+    color: black;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* Style the link in footer when hover */
+footer a:hover {
+    color: #9399ff;
+}
+
+/* Style the icons in footer */
+footer ion-icon {
+    vertical-align: middle;
+}

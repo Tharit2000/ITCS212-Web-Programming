@@ -1,0 +1,101 @@
+/* box-sizing: border-box;
+    - The width and height properties 
+    (and min/max properties) includes content,
+    padding, and border 
+*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Style the entire page */
+html {
+    background-color: #bbeaff;
+    font-family: 'Lato', 'Arial', sans-serif;
+    font-size: 20px;
+    line-height: 150%;
+}
+
+/* Style the body */
+body {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+/* Style the header */
+header {
+    background-color: #ffd5e5;
+    padding: 5%;
+}
+
+/* Style the paragraphs */
+p {
+    font-family: 'PT Serif', serif;
+}
+
+/* Style the header name */
+.header h1 {
+    text-align: center;
+    color: white;
+}
+
+/* Style the navigator bar */
+nav ul {
+    background-color: #a0ffe6;
+    list-style-type: none;
+    overflow: hidden;
+}
+
+/* Style the navigator bar */
+nav li {
+    float: left;
+    height: 30px;
+}
+
+/* Style the navigator bar */
+li a {
+    color: rgb(121, 121, 121);
+    padding: 10px;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+/* Style the navigator bar when hover and active page */
+li a:hover, .active {
+    background-color: #9399ff;
+    color: white;
+}
+
+/* Style the images */
+img {
+    width: 350px;
+    margin: 5px;
+    max-width: 100%;
+}
+
+/* Style the article */
+article {
+    background-color: #ffffdd;
+    height: 100%;
+    padding: 5%;
+    text-align: center;
+}
+
+/* Style the lines */
+hr {
+    width: 70%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 10px;
+    border: 0;
+    border-bottom: 5px solid #f9acbb;
+}
+
+/* Style the tables */
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
